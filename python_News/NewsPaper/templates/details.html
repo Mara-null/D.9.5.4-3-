@@ -1,0 +1,21 @@
+{% extends 'default.html' %}
+{% load custom_filters %}
+
+
+{% block content %}
+{% if new %}
+       <table>
+           <tr>
+               <td>Заголовок</td>
+               <td>Дата публикации</td>
+               <td>Содержание</td>
+           </tr>
+           <tr>
+               <td>{{ new.title }}</td>
+               <td>{{ new.post_time|date:'d M Y' }}</td>
+               <td>{{ new.text|censor }}</td>
+           </tr>
+{% else %}
+Тут ничего нет
+{% endif %}
+{% endblock content %}

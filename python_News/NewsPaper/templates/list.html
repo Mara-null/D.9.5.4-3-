@@ -1,0 +1,54 @@
+{% extends 'default.html' %}
+
+
+{% block title %}
+NewsPaper
+{% endblock title %}
+
+{% block content %}
+{% if news %}
+    {% if is_not_author %}
+    <button><a href="{% url 'author_now' %}">Стать автором</a></button>
+    {% endif %}
+
+       <table>
+           <tr>
+               <td>Заголовок</td>
+               <td>Дата публикации</td>
+               <td>Содержание</td>
+               <td>Категории</td>
+           </tr>
+           {% for new in news %}
+           <tr>
+               <td>{{ new.title }}</td>
+               <td>{{ new.post_time|date:'d M Y' }}</td>
+               <td>{{ new.text|truncatechars:20 }}</td>
+               <td>{% for category in post.category.all %}</td>
+                <a> href="{% url 'category_list' category.id %}">{{ category }}</a>
+                    {% endfor %}
+           </tr>
+   {% endfor %}
+   {% else %}
+       Новостей нет!
+   {% endif %}
+
+
+{% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+{{ page_obj.number }}
+
+{% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}
